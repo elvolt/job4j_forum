@@ -1,7 +1,7 @@
 package ru.job4j.forum.repository;
 
 import org.springframework.stereotype.Repository;
-import ru.job4j.forum.model.Authority;
+import ru.job4j.forum.model.Comment;
 import ru.job4j.forum.model.Post;
 import ru.job4j.forum.model.User;
 
@@ -14,6 +14,8 @@ import java.util.stream.IntStream;
 public class PostMem {
     private final Map<Integer, Post> posts = new HashMap<>();
     private final AtomicInteger currentPostId = new AtomicInteger(0);
+    private final Map<Integer, Comment> comments = new HashMap<>();
+    private final AtomicInteger currentCommentId = new AtomicInteger(0);
 
     public PostMem() {
         User user1 = new User();
@@ -45,5 +47,13 @@ public class PostMem {
 
     public Optional<Post> findById(int id) {
         return Optional.ofNullable(posts.get(id));
+    }
+
+    public Comment save(Comment comment) {
+        int commentId = currentCommentId.incrementAndGet();
+        comment.setId(commentId);
+        findById(comment.getPost().getId()).get().addComment(comment);
+        comments.put(commentId, comment);
+        return comment;
     }
 }

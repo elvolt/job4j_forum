@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import ru.job4j.forum.model.Comment;
 import ru.job4j.forum.model.Post;
 import ru.job4j.forum.model.User;
-import ru.job4j.forum.repository.CommentMem;
 import ru.job4j.forum.repository.PostMem;
 
 import java.time.LocalDateTime;
@@ -12,21 +11,19 @@ import java.util.*;
 
 @Service
 public class PostService {
-    private final PostMem postRepository;
-    private final CommentMem commentRepository;
+    private final PostMem repository;
 
-    public PostService(PostMem postRepository, CommentMem commentRepository) {
-        this.postRepository = postRepository;
-        this.commentRepository = commentRepository;
+    public PostService(PostMem repository) {
+        this.repository = repository;
     }
 
     public Collection<Post> getAllPosts() {
-        return postRepository.findAll();
+        return repository.findAll();
     }
 
     public Post savePost(Post post, String username) {
         if (post.getId() != 0) {
-            Post existingPost = postRepository.findById(post.getId()).get();
+            Post existingPost = repository.findById(post.getId()).get();
             post.setCreated(existingPost.getCreated());
             post.setAuthor(existingPost.getAuthor());
         } else {
@@ -35,15 +32,11 @@ public class PostService {
             user.setUsername(username);
             post.setAuthor(user);
         }
-        return postRepository.save(post);
+        return repository.save(post);
     }
 
     public Optional<Post> findPostById(int id) {
-        return postRepository.findById(id);
-    }
-
-    public List<Comment> findCommentsByPostId(int id) {
-        return commentRepository.findCommentsByPostId(id);
+        return repository.findById(id);
     }
 
     public Comment saveComment(Comment comment, String username, Post post) {
@@ -52,6 +45,6 @@ public class PostService {
         user.setUsername(username);
         comment.setUser(user);
         comment.setPost(post);
-        return commentRepository.save(comment);
+        return repository.save(comment);
     }
 }

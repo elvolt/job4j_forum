@@ -39,7 +39,7 @@
                         <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${created}"/>
                     </td>
                 </tr>
-                <c:forEach items="${comments}" var="comment">
+                <c:forEach items="${post.comments}" var="comment">
                     <tr>
                         <td><c:out value="${comment.user.username}"/></td>
                         <td><c:out value="${comment.text}"/></td>

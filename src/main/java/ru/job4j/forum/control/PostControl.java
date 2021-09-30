@@ -10,8 +10,6 @@ import ru.job4j.forum.model.Comment;
 import ru.job4j.forum.model.Post;
 import ru.job4j.forum.service.PostService;
 
-import java.util.Collection;
-
 @Controller
 public class PostControl {
     private final PostService service;
@@ -51,11 +49,9 @@ public class PostControl {
 
     @GetMapping("/{id}")
     public String getPost(@PathVariable("id") int id, Model model) {
-        Collection<Comment> comments = service.findCommentsByPostId(id);
         Post post = service.findPostById(id)
                 .orElseThrow(() ->
                         new NoSuchPostException("Post with id " + id + " not found"));
-        model.addAttribute("comments", comments);
         model.addAttribute("post", post);
         return "post";
     }
