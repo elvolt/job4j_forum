@@ -1,13 +1,31 @@
 package ru.job4j.forum.model;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String password;
+
     private String username;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "authority_id")
     private Authority authority;
+
     private boolean enabled;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            mappedBy = "author",
+            orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -47,6 +65,14 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     @Override

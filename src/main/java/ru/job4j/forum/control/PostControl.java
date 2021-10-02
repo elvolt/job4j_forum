@@ -64,6 +64,6 @@ public class PostControl {
                         new NoSuchPostException("Post with id " + postId + " not found"));
         service.saveComment(comment,
                 ((UserDetails) model.getAttribute("user")).getUsername(), post);
-        return "redirect:/" + post.getId();
+        return "redirect:/" + postId;
     }
 }

@@ -55,7 +55,7 @@
                 <input type="hidden" name="postId" value="${post.id}">
                 <div class="mb-3">
                     <label for="comment">Добавить комментарий</label>
-                    <textarea class="form-control" name="text" id="comment" cols="30" rows="3"></textarea>
+                    <textarea class="form-control" name="text" id="comment" cols="30" rows="3" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Отправить</button>
             </form>

@@ -16,6 +16,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-4 mt-3">
+            <c:if test="${not empty errorMessage}">
+                <div class="" style="color:#ff0000; font-weight: bold; margin: 30px 0px;">
+                        ${errorMessage}
+                </div>
+            </c:if>
             <form name='login' action="<c:url value='/reg'/>" method='POST'>
                 <div class="mb-3">
                     <label for="username" class="form-label">Имя</label>
