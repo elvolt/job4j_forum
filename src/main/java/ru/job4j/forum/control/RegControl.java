@@ -1,5 +1,6 @@
 package ru.job4j.forum.control;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,14 +31,15 @@ public class RegControl {
 
     @PostMapping("/reg")
     public String save(@ModelAttribute User user, Model model) {
-        if (users.findByUsername(user.getUsername()) != null) {
-            model.addAttribute("errorMessage", "Пользователь с таким именем уже существует!");
-            return "reg";
-        }
         user.setEnabled(true);
         user.setPassword(encoder.encode(user.getPassword()));
         user.setAuthority(authorities.findByAuthority("ROLE_USER"));
-        users.save(user);
+        try {
+            users.save(user);
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("errorMessage", "Пользователь с таким именем уже существует!");
+            return "reg";
+        }
         return "redirect:/login";
     }
 }
