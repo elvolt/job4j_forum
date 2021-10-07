@@ -1,10 +1,10 @@
-CREATE TABLE authorities
+CREATE TABLE IF NOT EXISTS authorities
 (
     id        SERIAL PRIMARY KEY,
     authority VARCHAR(50) NOT NULL unique
 );
 
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
 (
     id           SERIAL PRIMARY KEY,
     username     VARCHAR(50)  NOT NULL UNIQUE,
@@ -13,20 +13,20 @@ CREATE TABLE users
     authority_id INT          NOT NULL REFERENCES authorities (id)
 );
 
-CREATE TABLE posts
+CREATE TABLE IF NOT EXISTS posts
 (
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(200),
     description VARCHAR(2000),
-    created     TIMESTAMPTZ NOT NULL DEFAULT now(),
+    created     TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     author_id   INT         NOT NULL REFERENCES users (id)
 );
 
-CREATE TABLE comments
+CREATE TABLE IF NOT EXISTS comments
 (
     id      SERIAL PRIMARY KEY,
     text    VARCHAR(2000),
     post_id INT REFERENCES posts (id),
-    created TIMESTAMPTZ NOT NULL DEFAULT now(),
+    created TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     user_id INT         NOT NULL REFERENCES users (id)
 );
