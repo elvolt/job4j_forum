@@ -1,20 +1,21 @@
-
 language: java
 jdk:
   - openjdk14
-
 sudo: false
-
+install: true
+script: mvn clean package -DskipTests=true
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-
 notifications:
   email:
-    recipients:
-      -sidelevcs@gmail.com
-    on_success: never # default: change
-    on_failure: always # default: always
-
+    recipients: "-sidelevcs@gmail.com"
+    on_success: never
+    on_failure: always
 env:
   global:
     - CODECOV_TOKEN="929cef7c-8c20-4f42-baca-fb7b9b57fbd6"
+deploy:
+  provider: heroku
+  api_key:
+    secure: ZbryQVIjduHB5BklAbvCcjooAppV/eYoadiLE9Joy/lDkLDZnWowz7LsQg2UnOrlG8lHr+EtkjRrtydV7uitGxH1lRtg+0igTt+UPFV9OLSQE0e+Qr8J9883RvhHwX8Ee8NYnHqqtmtUMnqPyvr2JXP8kVg44fz6aXUvmqV/6HHRjp0ihyNc9z7ScNTWqESoiHowDtsNDe3Y6GU5Qv96UZ6vB6Igtf7Z7Tvi8SY87M+fRLQmANY3DqclBapTtBMM/d/puYOPjB2hCMp8FgFrwKK8aNsAQlSooY6rsaryS9YEyEFtLyLgp9Wuu1sv6YoFX+pMBYJRVJvs+vqqaor4XFsF1yluQ7C1JixKR/5TkBI5w6VAHyLR7XszNhCQH/+Qlq/3n5vfznwAAvxbx6JMRmGhwmMTlq6fENbvuZ++yatOeVksa3voqNKPzki/mSdqNJJ2YqTct9KiUXN5Z8CH7DYyUSCEShgqBwQhYsfy2/VIV2iEjnxjIG3mXGRwbb3PM07BrWbUg7ZJI8E+0tEZeMWtqggDWydxS7cwRiCN5kwZh5rrU4Jfni5lvO5pzpb09a9ECj1NmCtRcu+qSSHGSzuzK3KCDE6/MsV3yn8ZyPSNthVKWnSxB1VSe2Cmlxbi26uo7ltnb5gnLrLyWhgBcJBPwFbgch3cW29dHhFBFig=
+  app: nameless-fjord-37166
